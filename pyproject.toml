@@ -1,0 +1,70 @@
+[project]
+name = "fraudicl"
+version = "1.0.0"
+description = "FRAUD-ICL: Retrieval-Augmented Deception Detection with In-Context Learning"
+authors = [
+    { name = "Christopher Denq" },
+    { name = "Rakesh M Verma" },
+]
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.12"
+
+dependencies = [
+    "accelerate>=1.0",
+    "bitsandbytes>=0.47",
+    "datasets>=3.0",
+    "h5py",
+    "haystack-ai>=2.0",
+    "huggingface-hub>=1.0",
+    "jinja2",
+    "lettucedetect",
+    "numpy",
+    "pandas",
+    "psutil",
+    "pyarrow",
+    "python-dotenv",
+    "scikit-learn",
+    "scipy",
+    "sentence-transformers>=3.0",
+    "torch>=2.7",
+    "tqdm",
+    "transformers>=5.0",
+]
+
+[project.optional-dependencies]
+notebook = [
+    "jupyterlab",
+    "notebook",
+    "ipykernel",
+    "matplotlib",
+    "seaborn",
+    "statsmodels",
+]
+
+[project.urls]
+Repository = "https://github.com/ReDASers/fraudicl-release"
+
+# Torch comes from the CUDA 12.8 index, not PyPI. The default PyPI torch wheel is
+# CPU-only on Windows, which silently produces a non-GPU env; Blackwell GPUs (sm_120,
+# e.g. RTX 5080/5090) additionally require cu128+ -- older CUDA builds import fine but
+# crash on the first kernel launch. Pinning here means `uv sync` alone yields a working
+# GPU env on both Windows and Linux.
+# Scoped to win32/linux: PyPI has no CUDA wheels for macOS, so it falls back there.
+[[tool.uv.index]]
+name = "pytorch-cu128"
+url = "https://download.pytorch.org/whl/cu128"
+explicit = true
+
+[tool.uv.sources]
+torch = [
+    { index = "pytorch-cu128", marker = "sys_platform == 'win32' or sys_platform == 'linux'" },
+]
+
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["fraudicl*"]

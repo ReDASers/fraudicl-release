@@ -1,0 +1,33 @@
+# Secrets and environments
+.env
+.venv/
+.uv-cache/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Editors
+.vscode/
+.idea/
+
+# Downloaded data, model weights and the knowledge base
+Saved/
+
+# Run outputs: everything under Outputs/ except the shipped evaluation samples
+Outputs/*
+!Outputs/total_samples.csv
+!Outputs/random-retrieval/
+Outputs/random-retrieval/*
+!Outputs/random-retrieval/samples.csv
+!Outputs/contamination-check/
+Outputs/contamination-check/*
+!Outputs/contamination-check/samples_original.csv
+!Outputs/contamination-check/samples_perturbed.csv
+
+# Logs and backups
+*.log
+*.bak
